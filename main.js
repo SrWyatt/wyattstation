@@ -5,32 +5,26 @@ const volIcon = document.getElementById('volIcon');
 const volumeSlider = document.getElementById('volumeSlider');
 const field = document.getElementById('sticker-field');
 const countDisplay = document.getElementById('real-count');
+const statusText = document.getElementById('status-text');
 
 const assets = ['eye.png', 'fly.png', 'ram.png', 'turtle.png'];
-for (let i = 0; i < 16; i++) {
+for (let i = 0; i < 15; i++) {
     const img = document.createElement('img');
     img.src = `resource/img/${assets[Math.floor(Math.random() * assets.length)]}`;
     img.className = 'particle-sticker';
-    img.style.left = Math.random() * 95 + '%';
-    img.style.top = Math.random() * 95 + '%';
-    img.style.width = (Math.random() * 150 + 150) + 'px';
-    img.style.animationDuration = (Math.random() * 15 + 10) + 's';
+    img.style.left = Math.random() * 85 + '%';
+    img.style.top = Math.random() * 85 + '%';
+    img.style.width = (Math.random() * 250 + 150) + 'px';
+    img.style.animationDuration = (Math.random() * 50 + 30) + 's';
+    img.style.animationDelay = (Math.random() * -20) + 's';
     field.appendChild(img);
 }
 
 let isPlaying = false;
 
-function startPlayback() {
-    audio.play().then(() => {
-        playIcon.src = 'resource/icons/pause-circle.svg';
-        field.classList.remove('paused');
-        isPlaying = true;
-    }).catch(err => {
-        console.log("Autoplay prevent");
-    });
-}
-
-window.addEventListener('load', startPlayback);
+audio.addEventListener('error', () => {
+    statusText.innerText = 'SERVER_OFFLINE';
+});
 
 playBtn.addEventListener('click', () => {
     if (!isPlaying) {
@@ -38,7 +32,10 @@ playBtn.addEventListener('click', () => {
             playIcon.src = 'resource/icons/pause-circle.svg';
             field.classList.remove('paused');
             isPlaying = true;
-        }).catch(err => console.log("Playback blocked"));
+            statusText.innerText = 'LIVE';
+        }).catch(() => {
+            statusText.innerText = 'SERVER_OFFLINE';
+        });
     } else {
         audio.pause();
         playIcon.src = 'resource/icons/play-circle-outline.svg';
@@ -50,16 +47,9 @@ playBtn.addEventListener('click', () => {
 volumeSlider.addEventListener('input', (e) => {
     const val = parseFloat(e.target.value);
     audio.volume = val;
-
-    if (val === 0) {
-        volIcon.src = 'resource/icons/volume-mute.svg';
-    } else if (val < 0.3) {
-        volIcon.src = 'resource/icons/volume-low.svg';
-    } else if (val < 0.7) {
-        volIcon.src = 'resource/icons/volume-medium.svg';
-    } else {
-        volIcon.src = 'resource/icons/volume-high.svg';
-    }
+    if (val === 0) volIcon.src = 'resource/icons/volume-mute.svg';
+    else if (val < 0.5) volIcon.src = 'resource/icons/volume-low.svg';
+    else volIcon.src = 'resource/icons/volume-medium.svg';
 });
 
 const bc = new BroadcastChannel('wyatt_realtime_count');
@@ -71,20 +61,15 @@ function sync() {
 }
 
 bc.onmessage = (e) => {
-    if (e.data.type === 'HEARTBEAT') {
+    if (e.data.type === 'HEARTBEAT' || e.data.type === 'ACK') {
         sessions.add(e.data.id);
-        bc.postMessage({ type: 'ACK', id: mySession });
-    } else if (e.data.type === 'ACK') {
-        sessions.add(e.data.id);
+        if (e.data.type === 'HEARTBEAT') bc.postMessage({ type: 'ACK', id: mySession });
     }
-    updateCounter();
+    countDisplay.innerText = (sessions.size + 1).toString().padStart(2, '0');
 };
 
-function updateCounter() {
-    const total = sessions.size + 1;
-    countDisplay.innerText = total.toString().padStart(2, '0');
-    setTimeout(() => sessions.clear(), 4000);
-}
-
-setInterval(sync, 2000);
+setInterval(() => {
+    sessions.clear();
+    sync();
+}, 4000);
 sync();

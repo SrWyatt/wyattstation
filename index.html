@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WYATT STATION</title>
+    <link rel="stylesheet" href="styles/css/bootstrap-5.0.0-beta1.min.css">
+    <link rel="stylesheet" href="styles/css/styles.css">
+</head>
+<body>
+
+    <nav class="brutal-nav">
+        <img src="resource/logos/logo_red.svg" alt="WYATT" class="nav-logo">
+    </nav>
+
+    <div id="sticker-field" class="sticker-field paused"></div>
+
+    <main class="main-wrapper">
+        <div class="content-block">
+
+            <div class="manifesto-container">
+                <p>This place gathers the different ways Wyatt’s head can sound; it is a
+                dark but friendly place. Do not fear—the crows will guide you through
+                this forest.</p>
+            </div>
+
+            <div class="master-player glass-brutal">
+                <div class="player-top">
+                    <div class="live-tag">
+                        <img src="resource/icons/antenna.svg" class="antenna-icon">
+                        <span>LIVE</span>
+                    </div>
+                </div>
+
+                <div class="player-core">
+                    <button id="playBtn" class="massive-btn">
+                        <img src="resource/icons/play-circle-outline.svg" id="playIcon">
+                    </button>
+                </div>
+
+                <div class="player-footer">
+                    <div class="vol-control">
+                        <img src="resource/icons/volume-medium.svg" id="volIcon" class="v-icon">
+                        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div class="simple-counter">
+        <img src="resource/icons/satellite-uplink.svg" class="uplink-icon">
+        <span id="real-count">01</span>
+    </div>
+
+    <audio id="radioPlayer" src="https://stream.zeno.fm/2gi6vrilgwbtv" autoplay></audio>
+
+    <script src="main.js"></script>
+</body>
+</html>

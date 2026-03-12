@@ -34,12 +34,9 @@ async function updateMetadata() {
         const response = await fetch('now_playing.json');
         if (!response.ok) throw new Error();
         const data = await response.json();
-        const songText = data.song.toUpperCase();
-        trackTitle.innerText = songText;
-        statusText.innerText = 'LIVE';
+        trackTitle.innerText = data.song.toUpperCase();
     } catch (e) {
         trackTitle.innerText = 'WYATT STATION - BROADCAST';
-        statusText.innerText = 'LIVE';
     }
 }
 
@@ -78,6 +75,7 @@ playBtn.addEventListener('click', () => {
             playIcon.src = 'resource/icons/pause-circle.svg';
             field.classList.remove('paused');
             isPlaying = true;
+            statusText.innerText = 'LIVE';
         }).catch(() => { statusText.innerText = 'SERVER_OFFLINE'; });
     } else {
         audio.pause();

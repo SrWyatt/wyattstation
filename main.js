@@ -8,40 +8,110 @@ const statusText = document.getElementById('status-text');
 const syncBtn = document.getElementById('syncBtn');
 const antennaIcon = document.getElementById('antennaIcon');
 const trackTitle = document.getElementById('track-title');
+const canvas = document.getElementById('visualizer');
+const canvasCtx = canvas.getContext('2d');
 
-const assets = ['eye.png', 'fly.png', 'ram.png', 'turtle.png', 'atom.png', 'brain.png', 'leaf.png'];
+const assets = ['eye.png', 'fly.png', 'ram.png', 'turtle.png', 'atom.png', 'brain.png', 'leaf.png', 'frog.png', 'crow.png', 'butterfly.png'];
 let lastAsset = '';
+const stickers = [];
 
-for (let i = 0; i < 25; i++) {
-    const img = document.createElement('img');
-    let randomAsset = assets[Math.floor(Math.random() * assets.length)];
-    while (randomAsset === lastAsset) { randomAsset = assets[Math.floor(Math.random() * assets.length)]; }
-    lastAsset = randomAsset;
-    img.src = `resource/img/${randomAsset}`;
-    img.className = 'particle-sticker';
-    img.style.left = `${Math.random() * 100}%`;
-    img.style.top = `${Math.random() * 100}%`;
-    const duration = Math.random() * 40 + 20;
-    img.style.setProperty('--drift-x', `${(Math.random() - 0.5) * 35}vw`);
-    img.style.setProperty('--drift-y', `${(Math.random() - 0.5) * 35}vh`);
-    img.style.animationDuration = `${duration}s`;
-    img.style.animationDelay = `${Math.random() * -20}s`;
-    field.appendChild(img);
-}
+const filters = [
+    'grayscale(100%) brightness(0.6)',
+    'grayscale(100%) brightness(0.9)',
+    'grayscale(100%) brightness(1.2)',
+    'grayscale(100%) contrast(1.3)'
+];
 
-async function updateMetadata() {
-    try {
-        const response = await fetch('now_playing.json');
-        if (!response.ok) throw new Error();
-        const data = await response.json();
-        trackTitle.innerText = data.song.toUpperCase();
-    } catch (e) {
-        trackTitle.innerText = 'WYATT STATION - BROADCAST';
+function initStickers() {
+    const cols = 6;
+    const rows = 5;
+    const cellWidth = 100 / cols;
+    const cellHeight = 100 / rows;
+
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            const img = document.createElement('img');
+            let randomAsset = assets[Math.floor(Math.random() * assets.length)];
+            while (randomAsset === lastAsset) { randomAsset = assets[Math.floor(Math.random() * assets.length)]; }
+            lastAsset = randomAsset;
+
+            img.src = `resource/img/${randomAsset}`;
+            img.className = 'particle-sticker';
+
+            const offsetX = (Math.random() - 0.5) * (cellWidth * 0.7);
+            const offsetY = (Math.random() - 0.5) * (cellHeight * 0.7);
+
+            img.style.left = `${(c * cellWidth) + (cellWidth / 2) + offsetX}%`;
+            img.style.top = `${(r * cellHeight) + (cellHeight / 2) + offsetY}%`;
+
+            const sizeVariation = Math.random();
+            let baseSize;
+            if (sizeVariation > 0.85) baseSize = Math.random() * (300 - 220) + 220;
+            else if (sizeVariation > 0.4) baseSize = Math.random() * (200 - 130) + 130;
+            else baseSize = Math.random() * (110 - 70) + 70;
+
+            img.style.width = `${baseSize}px`;
+            img.style.filter = filters[Math.floor(Math.random() * filters.length)];
+
+            const driftDur = Math.random() * 45 + 35;
+            const fadeDur = Math.random() * 25 + 15;
+
+            img.style.setProperty('--drift-x', `${(Math.random() - 0.5) * 35}vw`);
+            img.style.setProperty('--drift-y', `${(Math.random() - 0.5) * 35}vh`);
+
+            img.style.animation = `drift ${driftDur}s linear infinite, fadeCycle ${fadeDur}s ease-in-out infinite`;
+            img.style.animationDelay = `0s, ${Math.random() * -25}s`;
+
+            field.appendChild(img);
+            stickers.push(img);
+        }
     }
 }
 
-setInterval(updateMetadata, 10000);
-updateMetadata();
+initStickers();
+
+let audioCtx;
+let analyser;
+let source;
+let dataArray;
+
+function setupVisualizer() {
+    if (audioCtx) return;
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    analyser = audioCtx.createAnalyser();
+    source = audioCtx.createMediaElementSource(audio);
+    source.connect(analyser);
+    analyser.connect(audioCtx.destination);
+    analyser.fftSize = 64;
+    const bufferLength = analyser.frequencyBinCount;
+    dataArray = new Uint8Array(bufferLength);
+    draw();
+}
+
+function draw() {
+    requestAnimationFrame(draw);
+    analyser.getByteFrequencyData(dataArray);
+
+    canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+    const barWidth = (canvas.width / dataArray.length) * 2.5;
+    let barHeight;
+    let x = 0;
+
+    let totalResonance = 0;
+    for (let i = 0; i < dataArray.length; i++) {
+        barHeight = dataArray[i] / 2;
+        canvasCtx.fillStyle = '#d92121';
+        canvasCtx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
+        x += barWidth;
+        totalResonance += dataArray[i];
+    }
+
+    const avg = totalResonance / dataArray.length;
+    const scale = 1 + (avg / 500);
+    stickers.forEach(s => {
+        s.style.transform = `scale(${scale})`;
+    });
+}
 
 let isPlaying = false;
 
@@ -71,6 +141,10 @@ syncBtn.addEventListener('click', () => {
 
 playBtn.addEventListener('click', () => {
     if (!isPlaying) {
+        setupVisualizer();
+        if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+        }
         audio.play().then(() => {
             playIcon.src = 'resource/icons/pause-circle.svg';
             field.classList.remove('paused');

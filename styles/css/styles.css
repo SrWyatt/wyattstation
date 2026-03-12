@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'AethonKeros';
-    src: url('wyattstation/resource/fonts/AethonKeros-Regular.ttf') format('truetype');
+    src: url('../../resource/fonts/AethonKeros-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -12,12 +12,7 @@
     --glass-red: rgba(217, 33, 33, 0.05);
 }
 
-* { 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box; 
-    cursor: crosshair; 
-}
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
 
 body {
     background-color: var(--dark);
@@ -228,5 +223,3 @@ input[type=range]::-webkit-slider-thumb {
     }
     #track-title { max-width: 250px; font-size: 1rem; }
 }
-
-

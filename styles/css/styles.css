@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'AethonKeros';
-    src: url('resource/fonts/AethonKeros-Regular.ttf') format('truetype');
+    src: url('../../resource/fonts/AethonKeros-Regular.ttf') format('truetype');
 }
 
 :root {

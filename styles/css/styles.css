@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'AethonKeros';
-    src: url('../../resource/fonts/AethonKeros-Regular.ttf') format('truetype');
+    src: url('resource/fonts/AethonKeros-Regular.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -228,3 +228,4 @@ input[type=range]::-webkit-slider-thumb {
     }
     #track-title { max-width: 250px; font-size: 1rem; }
 }
+

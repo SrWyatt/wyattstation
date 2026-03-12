@@ -13,13 +13,20 @@
     <nav class="top-nav">
         <img src="resource/logos/logo_red.svg" alt="WYATT" class="mini-logo">
         <div class="live-status">
-            <img src="resource/icons/antenna.svg" class="pulse-red">
+            <button id="syncBtn" class="sync-btn" disabled>
+                <img src="resource/icons/antenna.svg" id="antennaIcon" class="pulse-red-white">
+            </button>
         </div>
     </nav>
 
     <main class="surreal-wrapper">
         <div class="text-void">
-            <p>WYATT’S HEAD SOUNDS <span class="accent-red">DARK BUT FRIENDLY</span>. THE CROWS WILL GUIDE YOU <span class="accent-red">IN THIS FOREST</span>.</p>
+            <p>WYATT'S HEAD SOUNDS <span class="accent-red">DARK BUT FRIENDLY</span>. THE CROWS WILL GUIDE YOU <span class="accent-red">IN THIS FOREST</span>.</p>
+        </div>
+
+        <div class="now-playing-container">
+            <span class="label">NOW_PLAYING:</span>
+            <span id="track-title">LOADING_DATA...</span>
         </div>
 
         <div class="player-minimal glass-brutal">

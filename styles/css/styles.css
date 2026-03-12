@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'AethonKeros';
-    src: url('../../resource/fonts/AethonKeros-Regular.ttf') format('truetype');
+    src: url('resource/fonts/AethonKeros-Regular.ttf') format('truetype');
 }
 
 :root {
@@ -45,12 +45,6 @@ body {
 @keyframes fadeCycle {
     0%, 100% { opacity: 0; }
     25%, 75% { opacity: 0.65; }
-}
-
-@media (max-width: 768px) {
-    .particle-sticker {
-        width: clamp(60px, 20vw, 150px) !important;
-    }
 }
 
 .top-nav {
@@ -223,8 +217,7 @@ input[type=range]::-webkit-slider-thumb {
     .text-void p { letter-spacing: -1px; }
     .player-minimal { width: 85%; padding: 30px; }
     .particle-sticker {
-        width: clamp(70px, 20vw, 150px) !important;
-        opacity: 0.25 !important;
+        width: clamp(60px, 20vw, 150px) !important;
     }
     #track-title { max-width: 250px; font-size: 1rem; }
 }

@@ -35,7 +35,7 @@ function initStickers() {
             while (randomAsset === lastAsset) { randomAsset = assets[Math.floor(Math.random() * assets.length)]; }
             lastAsset = randomAsset;
 
-            img.src = `./resource/img/${randomAsset}`;
+            img.src = `resource/img/${randomAsset}`;
             img.className = 'particle-sticker';
 
             const offsetX = (Math.random() - 0.5) * (cellWidth * 0.7);
@@ -147,14 +147,14 @@ playBtn.addEventListener('click', () => {
             audioCtx.resume();
         }
         audio.play().then(() => {
-            playIcon.src = './resource/icons/pause-circle.svg';
+            playIcon.src = 'resource/icons/pause-circle.svg';
             field.classList.remove('paused');
             isPlaying = true;
             statusText.innerText = 'LIVE';
         }).catch(() => { statusText.innerText = 'SERVER_OFFLINE'; });
     } else {
         audio.pause();
-        playIcon.src = './resource/icons/play-circle-outline.svg';
+        playIcon.src = 'resource/icons/play-circle-outline.svg';
         field.classList.add('paused');
         isPlaying = false;
     }
@@ -163,7 +163,7 @@ playBtn.addEventListener('click', () => {
 volumeSlider.addEventListener('input', (e) => {
     const val = parseFloat(e.target.value);
     audio.volume = val;
-    if (val === 0) volIcon.src = './resource/icons/volume-mute.svg';
-    else if (val < 0.5) volIcon.src = './resource/icons/volume-low.svg';
-    else volIcon.src = './resource/icons/volume-medium.svg';
+    if (val === 0) volIcon.src = 'resource/icons/volume-mute.svg';
+    else if (val < 0.5) volIcon.src = 'resource/icons/volume-low.svg';
+    else volIcon.src = 'resource/icons/volume-medium.svg';
 });

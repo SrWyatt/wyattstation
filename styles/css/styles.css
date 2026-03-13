@@ -56,11 +56,11 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px;
+    padding: 2rem;
     z-index: 100;
 }
 
-.mini-logo { height: 45px; }
+.mini-logo { height: 40px; }
 
 .sync-btn {
     background: none;
@@ -75,12 +75,12 @@ body {
 .sync-btn:disabled { cursor: default; }
 
 .pulse-red-white {
-    width: 30px;
+    width: 25px;
     animation: blinkRW 0.8s infinite alternate;
 }
 
 .static-yellow {
-    width: 30px;
+    width: 25px;
     filter: invert(80%) sepia(50%) saturate(3000%) hue-rotate(10deg);
 }
 
@@ -97,56 +97,59 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 0 1rem;
 }
 
 .text-void {
-    max-width: 800px;
+    width: 100%;
+    max-width: 850px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 2.5rem;
     mix-blend-mode: exclusion;
 }
 
 .text-void p {
-    font-size: clamp(2rem, 5vw, 4rem);
-    line-height: 0.85;
-    letter-spacing: -3px;
+    font-size: clamp(2rem, 4vw, 3.8rem);
+    line-height: 0.9;
+    letter-spacing: -2px;
 }
 
 .accent-red { color: var(--red); }
 
 .now-playing-container {
-    margin-bottom: 25px;
+    margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
 }
 
 .now-playing-container .label {
     color: var(--red);
-    font-size: 0.8rem;
-    margin-bottom: 5px;
-    opacity: 0.8;
+    font-size: 0.7rem;
+    margin-bottom: 4px;
+    letter-spacing: 3px;
 }
 
 #track-title {
-    max-width: 400px;
+    width: 100%;
+    max-width: 380px;
+    font-size: 1.1rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     border-bottom: 1px solid var(--red);
-    padding-bottom: 5px;
+    padding-bottom: 4px;
+    letter-spacing: 1px;
 }
 
 .visualizer-container {
-    width: 350px;
-    height: 50px;
+    width: 320px;
+    height: 40px;
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 1.5rem;
 }
 
 #visualizer {
@@ -158,68 +161,77 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 25px;
-    padding: 50px;
+    gap: 1.5rem;
+    padding: 3rem;
     border: 2px solid var(--red);
     background: var(--glass-red);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
+    width: 100%;
+    max-width: 420px;
 }
 
 .trigger-btn {
     background: var(--red);
     border: none;
-    width: 120px;
-    height: 120px;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     border-radius: 50%;
 }
 
-.trigger-btn:hover { background: var(--red); transform: scale(1.05); filter: brightness(1.2); }
-.trigger-btn img { width: 60px; filter: brightness(0); }
+.trigger-btn:hover { transform: scale(1.1); filter: brightness(1.2); }
+.trigger-btn img { width: 40px; filter: brightness(0); }
 
 .audio-ui {
     display: flex;
     align-items: center;
-    gap: 15px;
-    width: 250px;
+    gap: 12px;
+    width: 100%;
 }
 
-.ui-icon { width: 30px; filter: invert(1); }
+.ui-icon { width: 22px; filter: invert(1); }
 .red-filter { filter: invert(21%) sepia(91%) saturate(5451%) hue-rotate(358deg) brightness(91%) contrast(93%); }
 
 input[type=range] {
     flex-grow: 1;
     appearance: none;
     background: rgba(255, 255, 255, 0.1);
-    height: 4px;
+    height: 2px;
 }
 
 input[type=range]::-webkit-slider-thumb {
     appearance: none;
-    height: 25px;
-    width: 8px;
+    height: 18px;
+    width: 6px;
     background: var(--red);
 }
 
 .bottom-branding {
     position: fixed;
-    bottom: 30px;
-    left: 30px;
+    bottom: 2rem;
+    left: 2rem;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     color: var(--red);
-    font-size: 1.2rem;
+}
+
+.system-text { font-size: 1rem; letter-spacing: 2px; }
+
+@media (max-width: 1366px) and (orientation: landscape) {
+    .text-void { max-width: 700px; margin-bottom: 1.5rem; }
+    .player-minimal { padding: 2rem; max-width: 380px; }
+    .trigger-btn { width: 70px; height: 70px; }
+    .trigger-btn img { width: 35px; }
 }
 
 @media (max-width: 768px) {
-    .text-void p { letter-spacing: -1px; }
-    .player-minimal { width: 85%; padding: 30px; }
-    .particle-sticker {
-        width: clamp(60px, 20vw, 150px) !important;
-    }
-    #track-title { max-width: 250px; font-size: 1rem; }
+    .text-void p { font-size: 2.2rem; letter-spacing: -1px; }
+    .player-minimal { width: 90%; padding: 2rem; }
+    #track-title { max-width: 280px; }
+    .top-nav { padding: 1.5rem; }
+    .bottom-branding { bottom: 1.5rem; left: 1.5rem; }
 }

@@ -11,7 +11,7 @@ const trackTitle = document.getElementById('track-title');
 const canvas = document.getElementById('visualizer');
 const canvasCtx = canvas.getContext('2d');
 
-const assets = ['eye.png', 'fly.png', 'ram.png', 'turtle.png', 'atom.png', 'brain.png', 'leaf.png', 'frog.png', 'crow.png', 'butterfly.png'];
+const assets = ['eye.webp', 'fly.webp', 'ram.webp', 'turtle.webp', 'atom.webp', 'brain.webp', 'leaf.webp', 'frog.webp', 'crow.webp', 'butterfly.webp'];
 let lastAsset = '';
 const stickers = [];
 

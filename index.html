@@ -1,91 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Wyatt Station</title>
-
-<link rel="stylesheet" href="styles.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wyatt Station</title>
+    <link rel="stylesheet" href="styles/css/styles.css">
 </head>
 <body>
 
-<div id="sticker-field" class="sticker-field paused"></div>
+    <div id="sticker-field" class="sticker-field paused"></div>
 
-<nav class="top-nav">
-<img src="resource/logos/logo_red.svg" alt="WYATT" class="mini-logo">
+    <nav class="top-nav">
+        <img src="resource/logos/logo_red.svg" alt="WYATT" class="mini-logo">
+        <div class="live-status">
+            <button id="syncBtn" class="sync-btn" disabled>
+                <img src="resource/icons/antenna.svg" id="antennaIcon" class="pulse-red-white">
+            </button>
+        </div>
+    </nav>
 
-<div class="live-status">
-<button id="syncBtn" class="sync-btn" disabled>
-<img src="resource/icons/antenna.svg" id="antennaIcon" class="pulse-red-white">
-</button>
-</div>
+    <main class="surreal-wrapper">
+        <div class="text-void">
+            <p>WYATT'S HEAD SOUNDS <span class="accent-red">DARK BUT FRIENDLY</span>. THE CROWS WILL GUIDE YOU <span class="accent-red">IN THIS FOREST</span>.</p>
+        </div>
 
-</nav>
+        <div class="now-playing-container">
+            <span class="label">NOW PLAYING:</span>
+            <span id="track-title">WYATT STATION - BROADCAST</span>
+        </div>
 
-<main class="surreal-wrapper">
+        <div class="visualizer-container">
+            <canvas id="visualizer"></canvas>
+        </div>
 
-<div class="text-void">
-<p>
-WYATT'S HEAD SOUNDS <span class="accent-red">DARK BUT FRIENDLY</span>.
-THE CROWS WILL GUIDE YOU <span class="accent-red">IN THIS FOREST</span>.
-</p>
-</div>
+        <div class="player-minimal glass-brutal">
+            <button id="playBtn" class="trigger-btn">
+                <img src="resource/icons/play-circle-outline.svg" id="playIcon">
+            </button>
 
-<div class="now-playing-container">
-<span class="label">NOW PLAYING:</span>
-<span id="track-title">WYATT STATION - BROADCAST</span>
-</div>
+            <div class="audio-ui">
+                <img src="resource/icons/volume-medium.svg" id="volIcon" class="ui-icon">
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+            </div>
+        </div>
+    </main>
 
-<div class="visualizer-container">
-<canvas id="visualizer"></canvas>
-</div>
+    <div class="bottom-branding">
+        <img src="resource/icons/satellite-uplink.svg" class="ui-icon red-filter">
+        <span class="system-text" id="status-text">LIVE</span>
+    </div>
 
-<div class="player-minimal glass-brutal">
+    <audio id="radioPlayer" src="https://stream.zeno.fm/2gi6vrilgwbtv" crossorigin="anonymous"></audio>
 
-<button id="playBtn" class="trigger-btn">
-<img src="resource/icons/play-circle-outline.svg" id="playIcon">
-</button>
-
-<div class="audio-ui">
-
-<img src="resource/icons/volume-medium.svg" id="volIcon" class="ui-icon">
-
-<input
-type="range"
-id="volumeSlider"
-min="0"
-max="1"
-step="0.01"
-value="0.5"
->
-
-</div>
-
-</div>
-
-</main>
-
-<div class="bottom-branding">
-
-<img
-src="resource/icons/satellite-uplink.svg"
-class="ui-icon red-filter"
->
-
-<span class="system-text" id="status-text">
-LIVE
-</span>
-
-</div>
-
-<audio
-id="radioPlayer"
-src="https://stream.zeno.fm/2gi6vrilgwbtv"
-crossorigin="anonymous"
-></audio>
-
-<script src="main.js"></script>
-
+    <script src="main.js"></script>
 </body>
 </html>

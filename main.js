@@ -23,10 +23,13 @@ const filters = [
 ];
 
 function initStickers() {
-    const cols = 6;
-    const rows = 5;
+    const isSmallScreen = window.innerWidth < 1400;
+    const cols = isSmallScreen ? 5 : 6;
+    const rows = isSmallScreen ? 4 : 5;
     const cellWidth = 100 / cols;
     const cellHeight = 100 / rows;
+
+    field.innerHTML = '';
 
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
@@ -38,17 +41,17 @@ function initStickers() {
             img.src = `resource/img/${randomAsset}`;
             img.className = 'particle-sticker';
 
-            const offsetX = (Math.random() - 0.5) * (cellWidth * 0.7);
-            const offsetY = (Math.random() - 0.5) * (cellHeight * 0.7);
+            const offsetX = (Math.random() - 0.5) * (cellWidth * 0.6);
+            const offsetY = (Math.random() - 0.5) * (cellHeight * 0.6);
 
             img.style.left = `${(c * cellWidth) + (cellWidth / 2) + offsetX}%`;
             img.style.top = `${(r * cellHeight) + (cellHeight / 2) + offsetY}%`;
 
             const sizeVariation = Math.random();
             let baseSize;
-            if (sizeVariation > 0.85) baseSize = Math.random() * (300 - 220) + 220;
-            else if (sizeVariation > 0.4) baseSize = Math.random() * (200 - 130) + 130;
-            else baseSize = Math.random() * (110 - 70) + 70;
+            if (sizeVariation > 0.85) baseSize = isSmallScreen ? 160 : 220;
+            else if (sizeVariation > 0.4) baseSize = isSmallScreen ? 110 : 160;
+            else baseSize = isSmallScreen ? 70 : 90;
 
             img.style.width = `${baseSize}px`;
             img.style.filter = filters[Math.floor(Math.random() * filters.length)];
@@ -56,8 +59,8 @@ function initStickers() {
             const driftDur = Math.random() * 45 + 35;
             const fadeDur = Math.random() * 25 + 15;
 
-            img.style.setProperty('--drift-x', `${(Math.random() - 0.5) * 35}vw`);
-            img.style.setProperty('--drift-y', `${(Math.random() - 0.5) * 35}vh`);
+            img.style.setProperty('--drift-x', `${(Math.random() - 0.5) * 20}vw`);
+            img.style.setProperty('--drift-y', `${(Math.random() - 0.5) * 20}vh`);
 
             img.style.animation = `drift ${driftDur}s linear infinite, fadeCycle ${fadeDur}s ease-in-out infinite`;
             img.style.animationDelay = `0s, ${Math.random() * -25}s`;
@@ -108,7 +111,7 @@ function draw() {
     }
 
     const avg = totalResonance / dataArray.length;
-    const scale = 1 + (avg / 500);
+    const scale = 1 + (avg / 700);
     stickers.forEach(s => {
         s.style.transform = `scale(${scale})`;
     });
@@ -166,4 +169,8 @@ volumeSlider.addEventListener('input', (e) => {
     if (val === 0) volIcon.src = 'resource/icons/volume-mute.svg';
     else if (val < 0.5) volIcon.src = 'resource/icons/volume-low.svg';
     else volIcon.src = 'resource/icons/volume-medium.svg';
+});
+
+window.addEventListener('resize', () => {
+    initStickers();
 });

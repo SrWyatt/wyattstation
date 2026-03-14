@@ -119,6 +119,21 @@ function draw() {
 
 let isPlaying = false;
 
+const iconSrc = 'resource/icons/satellite-uplink.svg';
+
+function setStatus(state) {
+    statusText.className = 'status-badge';
+    if (state === 'checking') {
+        statusText.innerHTML = `<img src="${iconSrc}" class="status-icon"> CHECKING...`;
+    } else if (state === 'live') {
+        statusText.innerHTML = `<img src="${iconSrc}" class="status-icon"> LIVE`;
+        statusText.classList.add('is-live');
+    } else if (state === 'offline') {
+        statusText.innerHTML = `<img src="${iconSrc}" class="status-icon"> SERVER MAY BE OFF — TRY AGAIN LATER.`;
+        statusText.classList.add('is-offline');
+    }
+}
+
 function checkSync() {
     if (!isPlaying) return;
     const latency = audio.buffered.length > 0 ? (audio.buffered.end(0) - audio.currentTime) : 0;
@@ -149,17 +164,21 @@ playBtn.addEventListener('click', () => {
         if (audioCtx.state === 'suspended') {
             audioCtx.resume();
         }
+        setStatus('checking');
         audio.play().then(() => {
             playIcon.src = 'resource/icons/pause-circle.svg';
             field.classList.remove('paused');
             isPlaying = true;
-            statusText.innerText = 'LIVE';
-        }).catch(() => { statusText.innerText = 'SERVER_OFFLINE'; });
+            setStatus('live');
+        }).catch(() => {
+            setStatus('offline');
+        });
     } else {
         audio.pause();
         playIcon.src = 'resource/icons/play-circle-outline.svg';
         field.classList.add('paused');
         isPlaying = false;
+        setStatus('checking');
     }
 });
 

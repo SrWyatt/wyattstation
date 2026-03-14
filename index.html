@@ -25,7 +25,11 @@
 
         <div class="now-playing-container">
             <span class="label">NOW PLAYING:</span>
-            <span id="track-title">WYATT STATION - BROADCAST</span>
+            <span id="track-title">WYATT STATION — BROADCAST</span>
+            <span id="status-text" class="status-badge">
+                <img src="resource/icons/satellite-uplink.svg" class="status-icon" id="statusIcon">
+                CHECKING...
+            </span>
         </div>
 
         <div class="visualizer-container">
@@ -63,11 +67,6 @@
             </div>
         </div>
     </main>
-
-    <div class="bottom-branding">
-        <img src="resource/icons/satellite-uplink.svg" class="ui-icon red-filter">
-        <span class="system-text" id="status-text">LIVE</span>
-    </div>
 
     <audio id="radioPlayer" src="https://stream.zeno.fm/2gi6vrilgwbtv" crossorigin="anonymous"></audio>
 

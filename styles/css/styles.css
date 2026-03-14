@@ -170,6 +170,47 @@ body {
     max-width: 420px;
 }
 
+.sessions-ticker {
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 420px;
+    padding: 1.2rem;
+    border: 1px solid var(--red);
+    background: var(--glass-red);
+}
+
+.sessions-ticker .label {
+    display: block;
+    font-size: 0.95rem;
+    color: var(--red);
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+}
+
+.ticker-viewport {
+    height: 1.5rem;
+    overflow: hidden;
+}
+
+.ticker-track {
+    display: flex;
+    flex-direction: column;
+    animation: verticalScroll 25s linear infinite;
+}
+
+.session-item {
+    height: 1.5rem;
+    line-height: 1.5rem;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+@keyframes verticalScroll {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); } 
+}
+
 .trigger-btn {
     background: var(--red);
     border: none;
@@ -224,14 +265,9 @@ input[type=range]::-webkit-slider-thumb {
 @media (max-width: 1366px) and (orientation: landscape) {
     .text-void { max-width: 700px; margin-bottom: 1.5rem; }
     .player-minimal { padding: 2rem; max-width: 380px; }
-    .trigger-btn { width: 70px; height: 70px; }
-    .trigger-btn img { width: 35px; }
 }
 
 @media (max-width: 768px) {
     .text-void p { font-size: 2.2rem; letter-spacing: -1px; }
-    .player-minimal { width: 90%; padding: 2rem; }
-    #track-title { max-width: 280px; }
-    .top-nav { padding: 1.5rem; }
-    .bottom-branding { bottom: 1.5rem; left: 1.5rem; }
+    .player-minimal, .sessions-ticker { width: 90%; }
 }
